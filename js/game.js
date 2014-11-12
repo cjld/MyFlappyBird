@@ -379,11 +379,11 @@ module.exports = Menu;
 },{}],9:[function(require,module,exports){
 
 'use strict';
-var Bird = require('./prefabs/bird');
-var Ground = require('./prefabs/ground');
-var Pipe = require('./prefabs/pipe');
-var PipeGroup = require('./prefabs/pipeGroup');
-var Scoreboard = require('./prefabs/scoreboard');
+var Bird = require('../prefabs/bird');
+var Ground = require('../prefabs/ground');
+var Pipe = require('../prefabs/pipe');
+var PipeGroup = require('../prefabs/pipeGroup');
+var Scoreboard = require('../prefabs/scoreboard');
 
 function Play() {
 }
