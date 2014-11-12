@@ -239,10 +239,10 @@ Scoreboard.prototype.show = function(score) {
 
   this.bestText.setText(bestScore.toString());
 
-  if(score >= 10 && score < 20)
+  if(score >= 1 && score < 2)
   {
     coin = this.game.add.sprite(-65 , 7, 'medals', 1);
-  } else if(score >= 20) {
+  } else if(score >= 2) {
     coin = this.game.add.sprite(-65 , 7, 'medals', 0);
   }
 
@@ -379,11 +379,11 @@ module.exports = Menu;
 },{}],9:[function(require,module,exports){
 
 'use strict';
-var Bird = require('../prefabs/bird');
-var Ground = require('../prefabs/ground');
-var Pipe = require('../prefabs/pipe');
-var PipeGroup = require('../prefabs/pipeGroup');
-var Scoreboard = require('../prefabs/scoreboard');
+var Bird = require('./prefabs/bird');
+var Ground = require('./prefabs/ground');
+var Pipe = require('./prefabs/pipe');
+var PipeGroup = require('./prefabs/pipeGroup');
+var Scoreboard = require('./prefabs/scoreboard');
 
 function Play() {
 }
