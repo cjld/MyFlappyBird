@@ -6,6 +6,97 @@ var Pipe = require('../prefabs/pipe');
 var PipeGroup = require('../prefabs/pipeGroup');
 var Scoreboard = require('../prefabs/scoreboard');
 
+var max = 0;
+var front_emitter;
+var mid_emitter;
+var back_emitter;
+var update_interval = 4 * 60;
+var i = 0;
+
+function snow_func() {
+function create() {
+
+    game.add.image(0, 0, 'sky');
+
+    back_emitter = game.add.emitter(game.world.centerX, -32, 600);
+    back_emitter.makeParticles('snowflakes', [0, 1, 2, 3, 4, 5]);
+    back_emitter.maxParticleScale = 0.6;
+    back_emitter.minParticleScale = 0.2;
+    back_emitter.setYSpeed(20, 100);
+    back_emitter.gravity = 0;
+    back_emitter.width = game.world.width * 1.5;
+    back_emitter.minRotation = 0;
+    back_emitter.maxRotation = 40;
+
+    mid_emitter = game.add.emitter(game.world.centerX, -32, 250);
+    mid_emitter.makeParticles('snowflakes', [0, 1, 2, 3, 4, 5]);
+    mid_emitter.maxParticleScale = 1.2;
+    mid_emitter.minParticleScale = 0.8;
+    mid_emitter.setYSpeed(50, 150);
+    mid_emitter.gravity = 0;
+    mid_emitter.width = game.world.width * 1.5;
+    mid_emitter.minRotation = 0;
+    mid_emitter.maxRotation = 40;
+
+    front_emitter = game.add.emitter(game.world.centerX, -32, 50);
+    front_emitter.makeParticles('snowflakes_large', [0, 1, 2, 3, 4, 5]);
+    front_emitter.maxParticleScale = 1;
+    front_emitter.minParticleScale = 0.5;
+    front_emitter.setYSpeed(100, 200);
+    front_emitter.gravity = 0;
+    front_emitter.width = game.world.width * 1.5;
+    front_emitter.minRotation = 0;
+    front_emitter.maxRotation = 40;
+
+    changeWindDirection();
+
+    back_emitter.start(false, 14000, 20);
+    mid_emitter.start(false, 12000, 40);
+    front_emitter.start(false, 6000, 1000);
+
+}
+
+function update() {
+
+    i++;
+
+    if (i === update_interval)
+    {
+        changeWindDirection();
+        update_interval = Math.floor(Math.random() * 20) * 60; // 0 - 20sec @ 60fps
+        i = 0;
+    }
+
+}
+
+function changeWindDirection() {
+
+    var multi = Math.floor((max + 200) / 4),
+        frag = (Math.floor(Math.random() * 100) - multi);
+    max = max + frag;
+
+    if (max > 200) max = 150;
+    if (max < -200) max = -150;
+
+    setXSpeed(back_emitter, max);
+    setXSpeed(mid_emitter, max);
+    setXSpeed(front_emitter, max);
+
+}
+
+function setXSpeed(emitter, max) {
+
+    emitter.setXSpeed(max - 20, max);
+    emitter.forEachAlive(setParticleXSpeed, this, max);
+
+}
+
+function setParticleXSpeed(particle, max) {
+
+    particle.body.velocity.x = max - Math.floor(Math.random() * 30);
+
+}
+}
 function Play() {
 }
 Play.prototype = {
@@ -66,6 +157,9 @@ Play.prototype = {
     this.pipeHitSound = this.game.add.audio('pipeHit');
     this.groundHitSound = this.game.add.audio('groundHit');
     this.scoreSound = this.game.add.audio('score');
+
+    alert(1);
+    snow_func.create();
     
   },
   update: function() {
@@ -80,7 +174,7 @@ Play.prototype = {
         }, this);
     }
 
-
+    snow_func.update();
     
   },
   shutdown: function() {
